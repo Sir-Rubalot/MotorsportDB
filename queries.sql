@@ -1,4 +1,5 @@
-
+CREATE USER 'User1'@'localhost'
+  IDENTIFIED WITH caching_sha2_password BY 'MySuperSecurePassword-1';
 
 
 -- Visar F1-förare JOINad med Constructors som visar örarnummber, namn, vilket land de kommer ifrån, 
@@ -84,3 +85,11 @@ FROM RaceTracks AS rt
 INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
 INNER JOIN constructors AS ct ON rt.DriverID = ct.DriverID
 INNER JOIN Country AS c ON rt.CountryID = c.CountryID
+
+
+LOAD DATA INFILE 'C:\ProgramData\MySQL\MySQL Server 8.4\Uploads\F1 Points talley - Blad1.csv'
+INTO TABLE scores
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
