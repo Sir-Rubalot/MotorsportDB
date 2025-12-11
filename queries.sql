@@ -86,8 +86,8 @@ INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
 INNER JOIN constructors AS ct ON rt.DriverID = ct.DriverID
 INNER JOIN Country AS c ON rt.CountryID = c.CountryID
 
-
-LOAD DATA INFILE 'C:\ProgramData\MySQL\MySQL Server 8.4\Uploads\F1 Points talley - Blad1.csv'
+-- Importerar googe sheets med all poängställning under säsongen. 
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley_-_Blad1.csv'
 INTO TABLE scores
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
