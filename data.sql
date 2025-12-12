@@ -33,8 +33,9 @@ CREATE TABLE RaceTracks(
 
 -- Skapar tabell för poängställning.
 CREATE TABLE Scores(
-  DriverID INT PRIMARY KEY AUTO_INCREMENT,
-  Points INT
+  DriverID INT,
+  Points INT,
+  TrackID INT
 );
 
 -- Skapar tabell för länder, både för förare, konstruktörer och race.

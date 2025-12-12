@@ -14,6 +14,10 @@ ORDER BY ConstructorTeam;
 ALTER TABLE RaceTracks 
 MODIFY Circuit VARCHAR(50) NOT NULL;
 
+-- Använder LIKE för att hitta det eller de team som heter "...Racing"
+SELECT * FROM constructors
+WHERE ConstructorTeam LIKE '%Racing'
+
 -- Visar alla banor och vem som har vunnit på dem. Jag hämtar namn från Drivers och JOINar med RaceTracks.
 SELECT rt.Circuit, rt.Country, CONCAT(d.FirstName, ' ', d.LastName) AS Winner
 FROM RaceTracks as rt 
@@ -86,10 +90,52 @@ INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
 INNER JOIN constructors AS ct ON rt.DriverID = ct.DriverID
 INNER JOIN Country AS c ON rt.CountryID = c.CountryID
 
--- Importerar googe sheets med all poängställning under säsongen. 
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley_-_Blad1.csv'
-INTO TABLE scores
-FIELDS TERMINATED BY ','
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+-- Visar datum, race, vinnare, poäng och team
+SELECT DISTINCT
+rt.RaceDate,
+rt.Circuit, 
+c.Country AS Country,
+CONCAT(d.FirstName, ' ', d.LastName) AS Winner,
+s.Points,
+ct.ConstructorTeam
+FROM RaceTracks AS rt 
+INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
+INNER JOIN Constructors AS ct ON rt.DriverID = ct.DriverID
+INNER JOIN Country AS c ON rt.CountryID = c.CountryID
+INNER JOIN Scores AS s ON s.DriverID = d.DriverID
+Where s.Points = (
+  SELECT MAX(s2.Points)
+  FROM Scores AS s2
+  WHERE s2.DriverID = d.DriverID
+  AND s2.TrackID = rt.TrackID
+)
+ORDER BY RaceDate;
+
+-- Skapar ny användare.
+CREATE USER 'fanbase'@'localhost'
+IDENTIFIED WITH caching_sha2_password BY 'ILoveF1';
+
+-- Ger SELECT-rättigheter åt fanbase-användaren.
+GRANT SELECT ON RaceTracks TO 'fanbase'@'localhost'
+
+
+SELECT DISTINCT
+  rt.RaceDate,
+  rt.Circuit, 
+  c.Country AS Country,
+  CONCAT(d.FirstName, ' ', d.LastName) AS Winner,
+  SUM(s.Points) AS TotalPoints,
+  ct.ConstructorTeam
+FROM RaceTracks AS rt 
+INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
+INNER JOIN Constructors AS ct ON rt.DriverID = ct.DriverID
+INNER JOIN Country AS c ON rt.CountryID = c.CountryID
+INNER JOIN Scores AS s ON s.DriverID = d.DriverID
+WHERE rt.RaceDate = '2025-12-07'
+GROUP BY 
+  d.DriverID,
+  rt.RaceDate,
+  rt.Circuit,
+  c.Country,
+  ct.ConstructorTeam
+ORDER BY TotalPoints DESC;
