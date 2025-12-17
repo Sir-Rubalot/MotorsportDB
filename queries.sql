@@ -118,6 +118,19 @@ IDENTIFIED WITH caching_sha2_password BY 'ILoveF1';
 -- Ger SELECT-rättigheter åt fanbase-användaren.
 GRANT SELECT ON RaceTracks TO 'fanbase'@'localhost'
 
+-- Hämtar ut bana, förare, poäng och team för varje race.
+SELECT 
+rt.Circuit,
+rt.TrackID,
+d.DriverID,
+CONCAT(d.FirstName, ' ', d.LastName) AS Driver,
+s.Points,
+c.ConstructorTeam
+FROM Scores AS s
+INNER JOIN Drivers AS d ON s.DriverID = d.DriverID
+INNER JOIN Constructors AS c ON d.DriverID = c.DriverID
+INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
+ORDER BY TrackID;
 
 SELECT DISTINCT
   rt.RaceDate,
@@ -139,3 +152,25 @@ GROUP BY
   c.Country,
   ct.ConstructorTeam
 ORDER BY TotalPoints DESC;
+
+SELECT 
+    rt.RaceDate,
+    rt.Circuit, 
+    c.Country AS Country,
+    CONCAT(d.FirstName, ' ', d.LastName) AS DriverName,
+    s.Points,
+    ct.ConstructorTeam
+FROM Drivers AS d
+INNER JOIN Scores AS s ON s.DriverID = d.DriverID
+INNER JOIN RaceTracks AS rt ON rt.DriverID = d.DriverID
+INNER JOIN Constructors AS ct ON ct.DriverID = d.DriverID
+INNER JOIN Country AS c ON rt.CountryID = c.CountryID
+WHERE rt.RaceDate = '2025-12-07'
+GROUP BY 
+    d.DriverID, 
+    rt.RaceDate, 
+    rt.Circuit, 
+    c.Country,
+    ct.ConstructorTeam,
+    s.Points
+ORDER BY s.Points DESC;
