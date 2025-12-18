@@ -1,5 +1,5 @@
-CREATE DATABASE Motorsport;
-USE Motorsport;
+CREATE DATABASE FormulaOne;
+USE FormulaOne;
 
 -- Skapar tabell för länder, både för förare, konstruktörer och race.
 CREATE TABLE Country(
@@ -50,3 +50,36 @@ CREATE TABLE Scores(
   FOREIGN KEY (DriverID) REFERENCES Drivers(DriverID),
   FOREIGN KEY (TrackID) REFERENCES RaceTracks (TrackID)
 );
+
+-- Här visar jag vem vinnaren är för varje race under säsongen med en CASE-query.
+SELECT 
+  rt.RaceDate,
+  rt.Circuit,
+  CONCAT(d.FirstName, ' ', d.LastName) AS Driver,
+  CASE 
+    WHEN s.Points = 25 THEN 'Winner' 
+    ELSE 'Classified' 
+  END AS Eligibility
+FROM drivers AS d
+INNER JOIN Scores AS s ON d.DriverID = s.DriverID
+INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
+ORDER BY rt.RaceDate;
+
+-- Här skapar jag en stoed procedure för att visa var var och en 
+-- förare har fått för poäng i race race. 
+DELIMITER //
+
+CREATE PROCEDURE GetDriverInfo(IN driver_id INT)
+BEGIN
+  SELECT 
+    CONCAT(d.FirstName, ' ', d.LastName) AS FullName,
+    s.Points
+FROM drivers AS d
+INNER JOIN Scores AS s ON d.DriverID = s.DriverID
+WHERE d.DriverID = driver_id;
+END //
+
+DELIMITER ;
+
+-- Här kallar jag på funktionen, bara att byta DriverID i ( ).
+CALL GetDriverInfo(1);
