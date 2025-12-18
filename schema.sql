@@ -1,4 +1,33 @@
-
+-- Lägger till alla länder för RaceTracks, förare och Constructors.
+INSERT INTO Country(CountryID, Country) VALUES
+(1, 'Australia'),
+(2, 'China'), 
+(3, 'Japan'),
+(4, 'Bahrain'),
+(5, 'Saudi Arabia'),
+(6, 'Italy'),
+(7, 'Monaco'),
+(8, 'Spain'),
+(9, 'Canada'),
+(10, 'Austria'),
+(11, 'Great Britain'),
+(12, 'Belgium'),
+(13, 'Hungary'),
+(14, 'Netherlands'),
+(15, 'Azerbaijan'),
+(16, 'Singapore'),
+(17, 'United States of America'),
+(18, 'Mexico'),
+(19, 'Brazil'),
+(20, 'Qatar'),
+(21, 'Abu Dhabi'),
+(22, 'Switzerland'),
+(23, 'Finland'),
+(24, 'Argentina'),
+(25, 'France'),
+(26, 'Germany'),
+(27, 'New Zeeland'),
+(28, 'Thailand');
 
 -- Lägger till alla F1-förare.
 INSERT INTO Drivers(DriverID, Category, FirstName, LastName, DriverNumber, CountryID) VALUES
@@ -79,38 +108,8 @@ INSERT INTO RaceTracks(TrackID, Circuit, CountryID, DriverID, RaceDate) VALUES
 (23, 'Lusail International Circuit', 20, 1, '2025-11-30'),
 (24, 'Yas Marina Circuit', 21, 0, '2025-12-07');
 
--- Lägger till alla länder för RaceTracks, förare och Constructors.
-INSERT INTO Country(CountryID, Country) VALUES
-(1, 'Australia'),
-(2, 'China'), 
-(3, 'Japan'),
-(4, 'Bahrain'),
-(5, 'Saudi Arabia'),
-(6, 'Italy'),
-(7, 'Monaco'),
-(8, 'Spain'),
-(9, 'Canada'),
-(10, 'Austria'),
-(11, 'Great Britain'),
-(12, 'Belgium'),
-(13, 'Hungary'),
-(14, 'Netherlands'),
-(15, 'Azerbaijan'),
-(16, 'Singapore'),
-(17, 'United States of America'),
-(18, 'Mexico'),
-(19, 'Brazil'),
-(20, 'Qatar'),
-(21, 'Abu Dhabi'),
-(22, 'Switzerland'),
-(23, 'Finland'),
-(24, 'Argentina'),
-(25, 'France'),
-(26, 'Germany'),
-(27, 'New Zeeland'),
-(28, 'Thailand');
 
--- Importerar Google Sheets med poängställning  för alla race under säsongen.           Hur gör Matthias med detta?
+-- Importerar Google Sheets med poängställning  för alla race under säsongen.
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley.csv'
 INTO TABLE scores
 FIELDS TERMINATED BY ','

@@ -26,7 +26,6 @@ CREATE TABLE Constructors(
   Category VARCHAR(15),
   ConstructorTeam VARCHAR(50) NOT NULL,
   TeamPrincipal VARCHAR(50) NOT NULL,
-  TrackID INT NOT NULL,
   CountryID INT NOT NULL,
   FOREIGN KEY (DriverID) REFERENCES Drivers (DriverID),
   FOREIGN KEY (CountryID) REFERENCES Country(CountryID)
@@ -36,9 +35,8 @@ CREATE TABLE Constructors(
 CREATE TABLE RaceTracks(
   TrackID INT AUTO_INCREMENT,
   DriverID INT,
-  Circuit VARCHAR(30) NOT NULL,
+  Circuit VARCHAR(35) NOT NULL,
   CountryID INT,
-  Winner VARCHAR(30) NOT NULL,
   RaceDate DATE,
   PRIMARY KEY (TrackID),
   FOREIGN KEY (CountryID) REFERENCES Country(CountryID)
@@ -52,5 +50,3 @@ CREATE TABLE Scores(
   FOREIGN KEY (DriverID) REFERENCES Drivers(DriverID),
   FOREIGN KEY (TrackID) REFERENCES RaceTracks (TrackID)
 );
-
-
