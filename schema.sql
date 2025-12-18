@@ -24,7 +24,7 @@ INSERT INTO Drivers(DriverID, Category, FirstName, LastName, DriverNumber, Count
 (20, 'F1', 'Franco', 'Colapinto', 43, 24),
 (21, '', 'Valtteri', 'Bottas', 77, 23),
 (22, '', 'Sergio', 'Pérez', 11, 18),
-(23,'', 'Arvid', 'Lindblad', 4, 11),
+(23, '', 'Arvid', 'Lindblad', 4, 11),
 (24, '', 'Jack', 'Doohan', 7, 1);
 
 -- Lägger till alla F1-konstruktörer.
@@ -111,7 +111,7 @@ INSERT INTO Country(CountryID, Country) VALUES
 (28, 'Thailand');
 
 -- Importerar Google Sheets med poängställning  för alla race under säsongen.           Hur gör Matthias med detta?
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley_-_Blad1.csv'
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley.csv'
 INTO TABLE scores
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'

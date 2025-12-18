@@ -88,7 +88,7 @@ ct.ConstructorTeam
 FROM RaceTracks AS rt 
 INNER JOIN Drivers AS d ON d.DriverID = rt.DriverID
 INNER JOIN constructors AS ct ON rt.DriverID = ct.DriverID
-INNER JOIN Country AS c ON rt.CountryID = c.CountryID
+INNER JOIN Country AS c ON rt.CountryID = c.CountryID;
 
 -- Visar datum, race, vinnare, poäng och team
 SELECT DISTINCT
@@ -132,6 +132,22 @@ INNER JOIN Constructors AS c ON d.DriverID = c.DriverID
 INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
 ORDER BY TrackID;
 
+-- Skapar en view for Standings.
+CREATE VIEW DriverStandings AS
+SELECT 
+  d.DriverID,
+  CONCAT(d.FirstName, ' ', d.LastName) AS Driver,
+  c.ConstructorTeam,
+  SUM(s.Points) AS Standings
+FROM Scores AS s
+INNER JOIN Drivers AS d ON s.DriverID = d.DriverID 
+INNER JOIN constructors AS c ON d.DriverID = c.DriverID
+GROUP BY d.DriverID, d.FirstName, d.LastName, c.ConstructorTeam
+ORDER BY Standings DESC
+
+-- Visar VIEWn för DriverStandings.
+SELECT * FROM DriverStandings;
+
 SELECT DISTINCT
   rt.RaceDate,
   rt.Circuit, 
@@ -174,3 +190,14 @@ GROUP BY
     ct.ConstructorTeam,
     s.Points
 ORDER BY s.Points DESC;
+
+SELECT 
+rt.Circuit,
+CONCAT(d.FirstName, ' ', d.LastName) AS Driver,
+s.Points,
+c.ConstructorTeam
+FROM Scores AS s
+INNER JOIN Drivers AS d ON s.DriverID = d.DriverID
+INNER JOIN Constructors AS c ON d.DriverID = c.DriverID
+INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
+WHERE d.DriverID = 1
