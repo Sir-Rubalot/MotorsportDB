@@ -133,3 +133,14 @@ INNER JOIN Drivers AS d ON s.DriverID = d.DriverID
 INNER JOIN Constructors AS c ON d.DriverID = c.DriverID
 INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
 WHERE d.DriverID = 1
+
+-- Visar top 3 förare över säsongen och poäng med en HAVING.
+SELECT 
+    CONCAT(d.FirstName, ' ', d.LastName) AS Driver, 
+    SUM(s.Points) AS TotalPoints
+FROM drivers AS d
+INNER JOIN Scores AS s ON d.DriverID = s.DriverID
+WHERE d.DriverID BETWEEN 1 AND 10
+GROUP BY d.DriverID
+HAVING SUM(s.Points) > 300
+ORDER BY d.DriverID DESC;
