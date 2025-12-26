@@ -108,7 +108,6 @@ INSERT INTO RaceTracks(TrackID, Circuit, CountryID, DriverID, RaceDate) VALUES
 (23, 'Lusail International Circuit', 20, 1, '2025-11-30'),
 (24, 'Yas Marina Circuit', 21, 0, '2025-12-07');
 
-
 -- Importerar Google Sheets med poängställning  för alla race under säsongen.
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/F1_Points_talley.csv'
 INTO TABLE scores
@@ -116,4 +115,3 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
-

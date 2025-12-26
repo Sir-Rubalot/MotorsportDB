@@ -90,7 +90,7 @@ CREATE USER 'fanbase'@'localhost'
 IDENTIFIED WITH caching_sha2_password BY 'ILoveF1';
 
 -- Ger SELECT-rättigheter åt fanbase-användaren.
-GRANT SELECT ON RaceTracks TO 'fanbase'@'localhost'
+GRANT SELECT ON RaceTracks TO 'fanbase'@'localhost';
 
 -- Hämtar ut bana, förare, poäng och team för varje race.
 SELECT 
@@ -117,7 +117,7 @@ FROM Scores AS s
 INNER JOIN Drivers AS d ON s.DriverID = d.DriverID 
 INNER JOIN constructors AS c ON d.DriverID = c.DriverID
 GROUP BY d.DriverID, d.FirstName, d.LastName, c.ConstructorTeam
-ORDER BY Standings DESC
+ORDER BY Standings DESC;
 
 -- Visar VIEWn för DriverStandings.
 SELECT * FROM DriverStandings;
@@ -132,7 +132,7 @@ FROM Scores AS s
 INNER JOIN Drivers AS d ON s.DriverID = d.DriverID
 INNER JOIN Constructors AS c ON d.DriverID = c.DriverID
 INNER JOIN RaceTracks AS rt ON s.TrackID = rt.TrackID
-WHERE d.DriverID = 1
+WHERE d.DriverID = 1;
 
 -- Visar top 3 förare över säsongen och poäng med en HAVING.
 SELECT 
